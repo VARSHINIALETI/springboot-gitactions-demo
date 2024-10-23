@@ -39,5 +39,5 @@ jobs:
         run: |
           WAR_FILE=$(ls target/*.war)
           curl --upload-file "$WAR_FILE" \
-          "http://localhost:8080/manager/text/deploy?path=/demo-1.0&update=true" \
+          "http://localhost:8080/manager/text/deploy?path=/demo-1.0.0&update=true" \
           --user $TOMCAT_USERNAME:$TOMCAT_PASSWORD
