@@ -37,6 +37,7 @@ jobs:
           TOMCAT_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
           TOMCAT_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
         run: |
-          curl --upload-file target/springboot-app.war \
+          WAR_FILE=$(ls target/*.war)
+          curl --upload-file "$WAR_FILE" \
           "http://localhost:8080/manager/text/deploy?path=/yourapp&update=true" \
           --user $TOMCAT_USERNAME:$TOMCAT_PASSWORD
