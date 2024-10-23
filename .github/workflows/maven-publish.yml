@@ -1,0 +1,42 @@
+name: Build WAR File on Self-Hosted Runner
+
+# Trigger workflow manually using workflow_dispatch
+on:
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  build:
+    # Specify that the workflow should run on a self-hosted runner
+    runs-on: self-hosted
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up JDK 17 (or the version you're using for your Spring Boot application)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Step 3: Cache Maven dependencies for faster builds
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Step 4: Build the Spring Boot application and generate the WAR file
+      - name: Build WAR
+        run: mvn clean package -DskipTests
+
+      # Step 5: Upload the generated WAR file as an artifact
+      - name: Upload WAR file
+        uses: actions/upload-artifact@v3
+        with:
+          name: springboot-app.war
+          path: target/*.war
