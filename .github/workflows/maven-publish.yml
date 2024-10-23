@@ -32,6 +32,13 @@ jobs:
       - name: List target directory
         run: ls -la target/
 
+      - name: Upload WAR file as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: demo-war
+          path: target/*.war
+
+
       - name: Deploy to Tomcat
         env:
           TOMCAT_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
