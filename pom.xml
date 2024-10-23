@@ -80,7 +80,7 @@
 	</dependencies>
 
 	<build>
-		<fileName> demo-1.0.0 </fileName>
+		<finalName> demo-1.0.0 </finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
