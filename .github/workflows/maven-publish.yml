@@ -40,3 +40,14 @@ jobs:
         with:
           name: springboot-app.war
           path: target/*.war
+      - name: Deploy to Tomcat
+        env:
+          TOMCAT_USERNAME: ${{ secrets.TOMCAT_USERNAME }}
+          TOMCAT_PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
+        run: |
+          # Assuming your WAR file is named yourapp.war
+          WAR_FILE="target/yourapp.war"
+          TOMCAT_URL="http://localhost:8080/manager/text/deploy?path=/yourapp&update=true"
+
+          # Deploy using curl
+          curl --upload-file "$WAR_FILE" "$TOMCAT_URL" --user "$TOMCAT_USERNAME:$TOMCAT_PASSWORD"
